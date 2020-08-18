@@ -23,6 +23,7 @@ function hideListsWithoutRole(role){
 
 // This function is for unhiding the list which has the "role".
 function unhideListsWithRole(){
+	/* If you run this function when removing the last role, it will no longer work since there are 0 entries to iterate through in roleSelected since roleSelected.length == 0.
     for(i=0;i<roleSelected.length;i++){
       for (j = 1; j <= 10; j++) {
         var listNo = j.toString();
@@ -37,7 +38,32 @@ function unhideListsWithRole(){
           $(className).show();
         }
       }
-    }
+    }*/
+	// Instead, a function like this is more suitable.
+	for (j=1; j<=10; j++)
+	{
+		var listNo = j.toString();
+        var className = ".list-" + listNo;
+        var listText = $(className + " li").text();
+		
+		var foundAllItems = true; // If there is a single role in roleSelected that is not found, mark this as false so we can decide to hide it.
+		
+		console.log(listText);
+		
+		for (i=0; i<roleSelected.length; i++) {
+			if (listItem.indexOf(roleSelected[i]) == -1) {
+				foundAllItems = false;
+				break; // The moment we find one missing, there's no need to keep checking. We know we don't want to display this entry.
+			}
+		}
+		
+		if (foundAllItems) {
+			$(className).show();
+		}
+		else {
+			$(className).hide();
+		}
+	}
   }
 
 // To add the selected role on the top box.
